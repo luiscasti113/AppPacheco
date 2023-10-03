@@ -63,5 +63,23 @@ export const RegisterStyle = StyleSheet.create({
       subTittle:{
         fontSize : 12 ,
         color: "#ccc"
-      }
+      },
+      iconoPerfil:{
+        width: 100,
+        height: 100,
+        borderRadius: 100,
+        borderWidth: 1,
+        borderColor: "#d270db",
+        display: "flex",
+        alignSelf: "flex-end",
+        marginTop: -130,
+      },
+      galery:{
+        backgroundColor: "#d270db",
+        padding: 15,
+        borderRadius:30,
+        alignItems: "center",
+        textAlign: "center",
+        width: "100%",
+      },
 })

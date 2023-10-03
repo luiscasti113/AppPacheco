@@ -1,10 +1,30 @@
-import React from 'react';
-import { Text, StyleSheet, View, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, StyleSheet, View, SafeAreaView, TextInput, TouchableOpacity, Button, Image, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {RegisterStyle} from '../styles/Register'
+import * as ImagePicker from 'expo-image-picker';
+
+
 
 export default function Register() {
   const navigation = useNavigation();
+  const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
     // Función para manejar la navegación a la pantalla de Registro
     const handleSignUpPressLogin = () => {
@@ -18,9 +38,12 @@ export default function Register() {
       <View>
 
       <View style={RegisterStyle.spacing}>
-        <Text style={RegisterStyle.signupTop}>Sing up for a</Text>
-        <Text style={RegisterStyle.signupBottom}>new account.</Text>  
-        <Text style={RegisterStyle.subTittle}>We just need some more information</Text>   
+        <Text style={RegisterStyle.signupTop}>Registrate </Text>
+        <Text style={RegisterStyle.signupBottom}>Para crear una cuenta nueva.</Text>  
+      </View>
+
+      <View style={RegisterStyle.spacing}>
+      {image && <Image source={{ uri: image }} style={ RegisterStyle.iconoPerfil } />}
       </View>
       
       <View style={RegisterStyle.spacing}>
@@ -55,6 +78,7 @@ export default function Register() {
           />
       </View>
 
+
       <View style={RegisterStyle.spacing}>
           <Text style={RegisterStyle.label} >Password</Text>
           <TextInput 
@@ -67,11 +91,18 @@ export default function Register() {
 
       <View style={RegisterStyle.spacing}>
           <TouchableOpacity style={RegisterStyle.button}>
+                  <Text onPress={pickImage} style={RegisterStyle.buttonText}>Selecciona una foto de galería</Text>
+          </TouchableOpacity>
+      </View>
+
+      <View style={RegisterStyle.spacing}>
+          <TouchableOpacity style={RegisterStyle.button}>
                   <Text style={RegisterStyle.buttonText}>Next</Text>
           </TouchableOpacity>
       </View>
 
     </View>
+
 
   <View style={[RegisterStyle.spacing, RegisterStyle.row]}>
     <Text style={RegisterStyle.label}>Already have an account?</Text>
